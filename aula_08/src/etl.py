@@ -18,18 +18,22 @@ def transformação_calculo(df: pd.DataFrame)-> pd.DataFrame:
    df["Total"] = df["Quantidade"] * df["Venda"]
    return df
 
+
 #load
 
-def carregar_dados(df: pd.DataFrame):
-    df_final = df.to_csv('df_consolidado', index=False)
-    return df_final
+def carregar_dados(pasta_saida: str, df: pd.DataFrame) -> str:
+    os.makedirs(pasta_saida, exist_ok=True)  # Cria a pasta de saída, se não existir
+    caminho_arquivo = os.path.join(pasta_saida, 'df_consolidado.csv')
+    df.to_csv(caminho_arquivo, index=False)
+    return caminho_arquivo
 
 #test
 
 
-def pipeline_final_vendas(pasta: str):
+def pipeline_final_vendas(pasta: str, pasta_saida: str):
     data_frame = (extração(pasta))
     transform = (transformação_calculo(data_frame))
-    df_consolidado = carregar_dados(transform)
+    df_consolidado = carregar_dados(pasta_saida,transform)
     
+
     
