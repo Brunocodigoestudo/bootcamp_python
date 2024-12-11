@@ -2,6 +2,9 @@ import pandas as pd
 import os
 import sys
 import glob
+from loguru import logger 
+
+logger.add("logs/app.log", level="INFO")
 
 #extract
 
@@ -27,13 +30,14 @@ def carregar_dados(pasta_saida: str, df: pd.DataFrame) -> str:
     df.to_csv(caminho_arquivo, index=False)
     return caminho_arquivo
 
-#test
 
+#pipeline
 
 def pipeline_final_vendas(pasta: str, pasta_saida: str):
     data_frame = (extração(pasta))
     transform = (transformação_calculo(data_frame))
     df_consolidado = carregar_dados(pasta_saida,transform)
+    logger.info("A pipeline executada com sucesso")
     
 
     
